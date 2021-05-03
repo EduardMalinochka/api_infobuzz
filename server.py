@@ -2,20 +2,21 @@ from flask import Flask, request
 from flask_caching import Cache
 from transformers import GPT2LMHeadModel, GPT2Tokenizer
 config = {
-    "DEBUG": True, 
-    "CACHE_TYPE": "SimpleCache",
-    "CACHE_DEFAULT_TIMEOUT": 3600
+    "DEBUG": True#, 
+    # "CACHE_TYPE": "SimpleCache",
+    # "CACHE_DEFAULT_TIMEOUT": 3600
 }
 
 
 app = Flask(__name__)
 app.config.from_mapping(config)
-cache = Cache(app)
+# cache = Cache(app)
 
 tok = GPT2Tokenizer.from_pretrained('infobuzz')
 
 # curl http://91.201.54.207/ -d "{\"Theme\":\"<input>\""}""
 @app.route('/', methods=['POST'])
+# @cache.cached()
 def incoming_theme():
     text = request.get_json()
     out = GPT2LMHeadModel.from_pretrained('infobuzz') \
